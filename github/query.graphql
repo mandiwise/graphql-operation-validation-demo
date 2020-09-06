@@ -1,0 +1,19 @@
+query MY_RECENT_REPOS {
+  viewer {
+    repositories(last: 2) {
+      edges {
+        node {
+          id
+          name
+          watchers(first: 1) {
+            edges {
+              node {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

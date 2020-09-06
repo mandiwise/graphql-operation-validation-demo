@@ -1,0 +1,28 @@
+name: Validate GraphQL Operations
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "releases/*"
+
+jobs:
+  operations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Validate SWAPI operations
+        uses: mandiwise/graphql-operation-validation-action@v1
+        with:
+          schema_location: ${{ github.workspace }}/swapi/schema.graphql
+          base_dir: ${{ github.workspace }}/swapi
+          excluded_paths: schema.graphql
+
+      - name: Validate GitHub operations
+        uses: mandiwise/graphql-operation-validation-action@v1
+        with:
+          schema_location: https://api.github.com/graphql
+          base_dir: ${{ github.workspace }}/github
+          token: ${{ secrets.ACCESS_TOKEN }}
